@@ -1,9 +1,9 @@
 import pandas as pd
 
 def read_csv(file_path):
-    data = pd.read_csv(file_path)
-    print(data.head())  # Zeigt die ersten Zeilen an
-    return data
+    data1 = pd.read_csv(file_path)
+    print(data1.head())  # Zeigt die ersten Zeilen an
+    return data1
 
 def add_header_to_csv(file_path):
     # Die gewünschte Kopfzeile festlegen
@@ -28,16 +28,14 @@ def add_header_to_csv(file_path):
     current_data = pd.read_csv(file_path, header=0 if list(first_row.columns) == desired_header else None)
 
     # Wenn die Spaltenanzahl nicht übereinstimmt, Fehlermeldung ausgeben und Werte ergänzen
-    if current_data.shape[1] != len(desired_header):
-        print(f"Fehler: Die Datei muss {len(desired_header)} Spalten enthalten.")
-        specific_value = input("Welchen Wert sollte der Objektcode haben? ").strip()
+    if current_data.shape[1] == len(desired_header) - 1:
         
-        # Objektcode hinzufügen, falls er fehlt
-        if current_data.shape[1] == len(desired_header) - 1:  # Eine Spalte fehlt
-            current_data['Objektcode'] = specific_value
-        else:
-            print("Die Struktur der Datei ist nicht kompatibel.")
-            return
+        specific_value = input("Welchen Wert sollte der Objektcode haben? ").strip()
+        current_data['Objektcode'] = specific_value
+        
+    elif current_data.shape[1] != len(desired_header):
+        print("Fehler: Die Datei hat eine falsche Anzahl an Spalten. Es können keine Änderungen vorgenommen werden.")
+        return
 
     # Kopfzeile hinzufügen oder überschreiben
     current_data.columns = desired_header
@@ -48,3 +46,5 @@ def add_header_to_csv(file_path):
     # Datei mit neuer Kopfzeile speichern
     current_data.to_csv(output_file, index=False)
     print(f"CSV-Datei mit neuer Kopfzeile wurde unter {output_file} gespeichert.")
+    
+

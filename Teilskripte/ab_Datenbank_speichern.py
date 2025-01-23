@@ -1,5 +1,6 @@
 import pandas as pd
 import sqlite3
+import numpy as np
 
 def read_csv(file_path):
     data = pd.read_csv(file_path)
@@ -11,8 +12,7 @@ def create_database():
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS messungen (
-            id INTEGER PRIMARY KEY,
-            punktnummer TEXT,
+            Punktnummer TEXT,
             x REAL,
             y REAL,
             z REAL,
@@ -22,17 +22,17 @@ def create_database():
     conn.commit()
     return conn
 
-def save_data_to_db(conn, data):
+def save_data_to_db(conn, data_new):
     cursor = conn.cursor()
-    for _, row in data.iterrows():
+    for _, row in data_new.iterrows():
         cursor.execute('''
-            INSERT INTO messungen (punktnummer, x, y, z, objektcode)
+            INSERT INTO messungen (Punktnummer, x, y, z, objektcode)
             VALUES (?, ?, ?, ?, ?)
-        ''', (row['Punktnummer'], row['X'], row['Y'], row['Z'], row['Objektcode']))
+        ''', (row['Punktnummer'], row['x'], row['y'], row['z'], row['objektcode']))
     conn.commit()
     print('Daten erfolgreich in die Datenbank gespeichert.')
 
-file_path = 'Nullmessung_001.csv'  # Stelle sicher, dass der Pfad korrekt ist
+file_path = '123.csv'  # Stelle sicher, dass der Pfad korrekt ist
 data = read_csv(file_path)
 conn = create_database()
 save_data_to_db(conn, data)
