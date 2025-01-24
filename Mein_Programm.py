@@ -424,7 +424,7 @@ with tab2:
         st.info("Bitte laden Sie die Differenzen-Datei hoch, um die Diagramme zu sehen.")
 
 with tab3:
-    st.header("Schritt 3: Liniendiagramme der Abweichungen")
+    st.header("Schritt 4: Liniendiagramme der Abweichungen")
     
     if uploaded_folg_diff is not None:
         # CSV-Datei einlesen
